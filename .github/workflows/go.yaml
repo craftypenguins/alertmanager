@@ -33,5 +33,5 @@ jobs:
     - name: Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "alertmanager-${GITTHUB_REF_NAME}.linux-amd64.tar.gz"
+        artifacts: "alertmanager*.linux-amd64.tar.gz"
         #token: ${{ secrets.GITHUB_TOKEN }}
