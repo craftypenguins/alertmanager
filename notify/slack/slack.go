@@ -58,6 +58,7 @@ func New(c *config.SlackConfig, t *template.Template, l log.Logger) (*Notifier, 
 // request is the request for sending a slack notification.
 type request struct {
 	Channel     string       `json:"channel,omitempty"`
+	Thread      string       `json:"thread_ts,omitempty"`
 	Username    string       `json:"username,omitempty"`
 	IconEmoji   string       `json:"icon_emoji,omitempty"`
 	IconURL     string       `json:"icon_url,omitempty"`
@@ -160,6 +161,7 @@ func (n *Notifier) Notify(ctx context.Context, as ...*types.Alert) (bool, error)
 
 	req := &request{
 		Channel:     tmplText(n.conf.Channel),
+		Thread:      tmplText(n.conf.Thread),
 		Username:    tmplText(n.conf.Username),
 		IconEmoji:   tmplText(n.conf.IconEmoji),
 		IconURL:     tmplText(n.conf.IconURL),
@@ -186,6 +188,6 @@ func (n *Notifier) Notify(ctx context.Context, as ...*types.Alert) (bool, error)
 	// https://api.slack.com/incoming-webhooks#handling_errors
 	// https://api.slack.com/changelog/2016-05-17-changes-to-errors-for-incoming-webhooks
 	retry, err := n.retrier.Check(resp.StatusCode, resp.Body)
-	err = errors.Wrap(err, fmt.Sprintf("channel %q", req.Channel))
+	err = errors.Wrap(err, fmt.Sprintf("channel %q thread %q", req.Channel, req.Thread))
 	return retry, err
 }
