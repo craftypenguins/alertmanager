@@ -1,0 +1,37 @@
+name: Go
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18
+
+    - name: Build
+      run: make build
+
+    - name: Prepare Package Directory
+      run: mkdir alertmanager-${GITHUB_REF_NAME}.linux-amd64
+    - name: Prepare Package Assets
+      run: cp alertmanager amtool LICENSE NOTICE examples/ha/alertmanager.yml alertmanager-${GITHUB_REF_NAME}.linux-amd64/
+
+    - name: Package Bundle
+      run: tar cvzf alertmanager-${GITHUB_REF_NAME}.linux-amd64.tar.gz alertmanager-${GITHUB_REF_NAME}.linux-amd64
+
+    - name: Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "alertmanager*.linux-amd64.tar.gz"
+        #token: ${{ secrets.GITHUB_TOKEN }}

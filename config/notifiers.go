@@ -332,6 +332,7 @@ type SlackConfig struct {
 
 	// Slack channel override, (like #other-channel or @username).
 	Channel  string `yaml:"channel,omitempty" json:"channel,omitempty"`
+	Thread   string `yaml:"thread_ts,omitempty" json:"channel,omitempty"`
 	Username string `yaml:"username,omitempty" json:"username,omitempty"`
 	Color    string `yaml:"color,omitempty" json:"color,omitempty"`
 
