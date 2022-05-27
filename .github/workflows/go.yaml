@@ -3,8 +3,8 @@ name: Go
 on:
   push:
     branches: [ release-0.21-cp ]
-  pull_request:
-    branches: [ release-0.21-cp ]
+    tags:
+    - '*'
 
 jobs:
 
