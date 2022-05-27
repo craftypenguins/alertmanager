@@ -2,7 +2,6 @@ name: Go
 
 on:
   push:
-    branches: [ release-0.21-cp ]
     tags:
     - '*'
 
@@ -23,8 +22,16 @@ jobs:
     - name: Build
       run: make build
 
+    - name: Prepare Package Directory
+      run: mkdir alertmanager-${GITTHUB_REF_NAME}.linux-amd64
+    - name: Prepare Package Assets
+      run: cp alertmanager amtool LICENSE NOTICE alertmanager.yaml alertmanager-${GITTHUB_REF_NAME}.linux-amd64/
+
+    - name: Package Bundle
+      run: tar cfzf alertmanager-${GITTHUB_REF_NAME}.linux-amd64.tar.gz alertmanager-${GITTHUB_REF_NAME}.linux-amd64.tar.gz 
+
     - name: Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "alertmanager, amtool"
+        artifacts: "alertmanager-${GITTHUB_REF_NAME}.linux-amd64.tar.gz"
         #token: ${{ secrets.GITHUB_TOKEN }}
