@@ -23,12 +23,12 @@ jobs:
       run: make build
 
     - name: Prepare Package Directory
-      run: mkdir alertmanager-${GITTHUB_REF_NAME}.linux-amd64
+      run: mkdir alertmanager-${GITHUB_REF_NAME}.linux-amd64
     - name: Prepare Package Assets
-      run: cp alertmanager amtool LICENSE NOTICE examples/ha/alertmanager.yml alertmanager-${GITTHUB_REF_NAME}.linux-amd64/
+      run: cp alertmanager amtool LICENSE NOTICE examples/ha/alertmanager.yml alertmanager-${GITHUB_REF_NAME}.linux-amd64/
 
     - name: Package Bundle
-      run: tar cvzf alertmanager-${GITTHUB_REF_NAME}.linux-amd64.tar.gz alertmanager-${GITTHUB_REF_NAME}.linux-amd64
+      run: tar cvzf alertmanager-${GITHUB_REF_NAME}.linux-amd64.tar.gz alertmanager-${GITHUB_REF_NAME}.linux-amd64
 
     - name: Release
       uses: ncipollo/release-action@v1
